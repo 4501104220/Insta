@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         text_login = findViewById(R.id.txt_login);
 
         mauth = FirebaseAuth.getInstance();
+        
         text_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
               pd = new ProgressDialog(RegisterActivity.this);
               pd.setMessage("Please wait...");
               pd.show();
+              
               String str_username= username.getText().toString();
               String str_fullname= fullname.getText().toString();
               String str_email= email.getText().toString();
@@ -66,13 +68,13 @@ public class RegisterActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(str_username) || TextUtils.isEmpty(
                         str_fullname) || TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password)){
 
-                    Toast.makeText(RegisterActivity.this,"All Filds are required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"All fields are required", Toast.LENGTH_SHORT).show();
 
                 }else if(str_password.length()<6) {
                     Toast.makeText(RegisterActivity.this,"Password must have 6 characters", Toast.LENGTH_SHORT).show();
 
                 }else {
-                    register(str_username,str_fullname,str_email,str_password);
+                    register(str_username, str_fullname, str_email, str_password);
 
                 }
             }

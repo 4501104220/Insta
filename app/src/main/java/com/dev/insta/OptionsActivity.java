@@ -2,7 +2,6 @@ package com.dev.insta;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,22 +26,12 @@ public class OptionsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Options");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        toolbar.setNavigationOnClickListener(view -> finish());
 
-                finish();
-
-            }
-        });
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(com.dev.insta.OptionsActivity.this, com.dev.insta.StartActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
+        logout.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(OptionsActivity.this, StartActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
     }
 }

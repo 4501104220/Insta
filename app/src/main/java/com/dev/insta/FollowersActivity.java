@@ -48,7 +48,6 @@ public class FollowersActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -72,7 +71,6 @@ public class FollowersActivity extends AppCompatActivity {
             case "views"   :
                 getViews();
                 break;
-
 
         }
 
@@ -114,7 +112,6 @@ public class FollowersActivity extends AppCompatActivity {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Follow").child(id).child("followers");
 
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -133,7 +130,6 @@ public class FollowersActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void getFollowing() {
@@ -160,13 +156,11 @@ public class FollowersActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void getLikes() {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Likes").child(id);
-
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -186,7 +180,6 @@ public class FollowersActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private  void showUsers(){
@@ -216,8 +209,5 @@ public class FollowersActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 }

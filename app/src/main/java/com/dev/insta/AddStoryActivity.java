@@ -100,7 +100,6 @@ public class AddStoryActivity extends AppCompatActivity {
                         hashMap.put("storyid",storyid);
                         hashMap.put("userid",myid);
 
-
                         reference.child(storyid).setValue(hashMap);
                         pd.dismiss();
                         finish();
@@ -137,7 +136,6 @@ public class AddStoryActivity extends AppCompatActivity {
             Toast.makeText(com.dev.insta.AddStoryActivity.this,"Something gone wrong!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(com.dev.insta.AddStoryActivity.this,MainActivity.class));
             finish();
-
 
         }
     }

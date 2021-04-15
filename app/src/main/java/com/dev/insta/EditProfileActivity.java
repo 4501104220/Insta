@@ -50,12 +50,9 @@ public class EditProfileActivity extends AppCompatActivity {
     StorageReference storageRef;
 
 
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-
 
         close = findViewById(R.id.close);
         image_profile = findViewById(R.id.image_profile);
@@ -79,7 +76,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 username.setText(user.getUsername());
                 bio.setText(user.getBio());
                 Glide.with(getApplicationContext()).load(user.getImageurl()).into(image_profile);
-
 
             }
 
@@ -122,7 +118,6 @@ public class EditProfileActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 updateProfile(fullname.getText().toString(),
                         username.getText().toString(),
@@ -193,20 +188,14 @@ public class EditProfileActivity extends AppCompatActivity {
 
                         hashMap.put("imageurl",""+myUrl);
 
-
                         reference.updateChildren(hashMap);
-
 
                         progressDialog.dismiss();
 
-                    }
-                    else {
+                    } else {
                         Toast.makeText(com.dev.insta.EditProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                     }
-
-
                 }
-
 
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -234,7 +223,6 @@ public class EditProfileActivity extends AppCompatActivity {
             uploadImage();
         }else {
             Toast.makeText(com.dev.insta.EditProfileActivity.this,"Searching gone wrong!", Toast.LENGTH_SHORT).show();
-
 
         }
     }

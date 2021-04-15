@@ -2,7 +2,6 @@ package com.dev.insta;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class StartActivity extends AppCompatActivity {
 
-    Button login,ragister;
+    Button login,register;
     FirebaseUser firebaseUser;
 
     @Override
@@ -33,24 +32,11 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         login = findViewById(R.id.login_btn);
-        ragister = findViewById(R.id.Ragister);
+        register = findViewById(R.id.register);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(com.dev.insta.StartActivity.this,LoginActivity.class));
+        login.setOnClickListener(view -> startActivity(new Intent(StartActivity.this,LoginActivity.class)));
 
-
-            }
-        });
-
-        ragister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(com.dev.insta.StartActivity.this, RegisterActivity.class));
-
-            }
-        });
+        register.setOnClickListener(view -> startActivity(new Intent(StartActivity.this, RegisterActivity.class)));
 
     }
 }

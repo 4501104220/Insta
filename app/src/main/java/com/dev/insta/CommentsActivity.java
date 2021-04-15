@@ -88,7 +88,7 @@ public class CommentsActivity extends AppCompatActivity {
 
                 if(addcomment.getText().toString().equals("")){
 
-                    Toast.makeText(com.dev.insta.CommentsActivity.this, "you can't not send empty comment", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(com.dev.insta.CommentsActivity.this, "You can't not send empty comment", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     addcomment();
@@ -100,7 +100,6 @@ public class CommentsActivity extends AppCompatActivity {
         readComment();
 
     }
-
 
 
     private void addcomment() {
@@ -131,8 +130,8 @@ public class CommentsActivity extends AppCompatActivity {
         hashMap.put("postid",postid);
         hashMap.put("ispost",true);
 
-
         reference.push().setValue(hashMap);
+
     }
 
 
@@ -143,7 +142,6 @@ public class CommentsActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
 
                 User user = dataSnapshot.getValue(User.class);
 
@@ -156,7 +154,6 @@ public class CommentsActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void readComment(){
@@ -182,6 +179,4 @@ public class CommentsActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

@@ -13,8 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,10 +41,10 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
     ImageView story_delete;
 
 
-
     List<String> images;
     List<String> storyids;
     String userid;
+
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -131,25 +129,19 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
             }
         });
 
-        story_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
-                        .child(userid).child(storyids.get(counter));
+        story_delete.setOnClickListener(view -> {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
+                    .child(userid).child(storyids.get(counter));
 
-                reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+            reference.removeValue().addOnCompleteListener(task -> {
 
-                        if (task.isSuccessful()){
+                if (task.isSuccessful()){
 
-                            Toast.makeText(com.dev.insta.StoryActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
+                    Toast.makeText(StoryActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
 
-                    }
-                });
-            }
+            });
         });
 
 
@@ -161,7 +153,6 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
         Glide.with(getApplicationContext()).load(images.get(++counter)).into(image);
         addView(storyids.get(counter));
         seenNumber(storyids.get(counter));
-
 
     }
 
@@ -223,7 +214,6 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
                         storyids.add(story.getStoryid());
 
                     }
-
                 }
 
                 storiesProgressView.setStoriesCount(images.size());
@@ -236,7 +226,6 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
                 addView(storyids.get(counter));
                 seenNumber(storyids.get(counter));
 
-
             }
 
             @Override
@@ -244,10 +233,7 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
 
             }
         });
-
-
-
-        }
+    }
 
         private  void  userInfo (String userid ){
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
@@ -267,7 +253,6 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
 
                 }
             });
-
         }
 
         private void  addView(String storyid){
@@ -293,8 +278,5 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
 
             }
         });
-
     }
-
-
 }

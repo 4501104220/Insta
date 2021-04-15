@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,105 +35,68 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         password = findViewById(R.id.password);
         email = findViewById(R.id.email);
         login = findViewById(R.id.login);
         text_signup = findViewById(R.id.txt_singnp);
         mauth = FirebaseAuth.getInstance();
 
-        text_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(com.dev.insta.LoginActivity.this, RegisterActivity.class));
-            }
-        });
+        text_signup.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
 
 
+        login.setOnClickListener(view -> {
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            pd = new ProgressDialog(LoginActivity.this);
+            pd.setMessage("Please wait...");
+            pd.show();
+          //  String str_username= username.getText().toString();
+          //  String str_fullname= fullname.getText().toString();
+            String str_email= email.getText().toString();
+            String str_password= password.getText().toString();
 
-                pd = new ProgressDialog(com.dev.insta.LoginActivity.this);
-                pd.setMessage("Please wait...");
-                pd.show();
-              //  String str_username= username.getText().toString();
-              //  String str_fullname= fullname.getText().toString();
-                String str_email= email.getText().toString();
-                String str_password= password.getText().toString();
+            if(TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password)){
 
-                if(TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password)){
+                Toast.makeText(LoginActivity.this,"All fields are required", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(com.dev.insta.LoginActivity.this,"All Filds are required", Toast.LENGTH_SHORT).show();
+            }else if(str_password.length()<6) {
+                Toast.makeText(LoginActivity.this,"Password must have 6 characters", Toast.LENGTH_SHORT).show();
 
-                }else if(str_password.length()<6) {
-                    Toast.makeText(com.dev.insta.LoginActivity.this,"Password must have 6 characters", Toast.LENGTH_SHORT).show();
+            }else {
 
-                }else {
+                mauth.signInWithEmailAndPassword(str_email,str_password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    mauth.signInWithEmailAndPassword(str_email,str_password).addOnCompleteListener(com.dev.insta.LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
 
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
+                                    .child(mauth.getCurrentUser().getUid());
 
-                            if (task.isSuccessful()){
+                            reference.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
-                                        .child(mauth.getCurrentUser().getUid());
+                                    pd.dismiss();
 
-                                reference.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
 
-                                        pd.dismiss();
+                                }
 
-                                        Intent intent = new Intent(com.dev.insta.LoginActivity.this,MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        finish();
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        pd.dismiss();
-                                    }
-                                });
-
-
-                            }else {
-                                Toast.makeText(com.dev.insta.LoginActivity.this,"Authentication Failed!", Toast.LENGTH_SHORT).show();
-                            }
+                                    pd.dismiss();
+                                }
+                            });
+                        }else {
+                            Toast.makeText(LoginActivity.this,"Authentication failed!", Toast.LENGTH_SHORT).show();
                         }
-                    });
-
-
-
-
-
-                }
-
+                    }
+                });
             }
-
-
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

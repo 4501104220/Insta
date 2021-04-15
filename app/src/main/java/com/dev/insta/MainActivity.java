@@ -10,17 +10,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.dev.insta.Fragment.HomeFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-
-import com.dev.insta.Fragment.HomeFragment;
 import com.dev.insta.Fragment.NotificationFragment;
 import com.dev.insta.Fragment.ProfileFragment;
 import com.dev.insta.Fragment.SearchFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigationView ;
+    BottomNavigationView bottomNavigationView;
     Fragment selectedFagrament = null;
 
     @Override
@@ -28,35 +26,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView  = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemReselectedListener(navigationItemSelectedListner);
 
         Bundle intent = getIntent().getExtras();
-        if(intent != null){
+        if (intent != null) {
 
             String publisher = intent.getString("publisherid");
 
-            SharedPreferences.Editor editor = getSharedPreferences("PREFS",MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
             editor.putString("profileid", publisher);
             editor.apply();
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new ProfileFragment()).commit();
 
-        }else {
+        } else {
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
 
         }
-
-
-
-
-
     }
-    private  BottomNavigationView.OnNavigationItemReselectedListener navigationItemSelectedListner =
+
+    private BottomNavigationView.OnNavigationItemReselectedListener navigationItemSelectedListner =
             new BottomNavigationView.OnNavigationItemReselectedListener() {
                 @Override
                 public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
@@ -84,16 +78,13 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
 
-
-
                     if (selectedFagrament != null) {
 
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 selectedFagrament).commit();
 
                     }
-                     return ;
+                    return;
                 }
-
             };
 }
