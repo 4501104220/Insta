@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setOnNavigationItemReselectedListener(navigationItemSelectedListner);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
 
         Bundle intent = getIntent().getExtras();
         if (intent != null) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private BottomNavigationView.OnNavigationItemReselectedListener navigationItemSelectedListner =
+    private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             menuItem -> {
 
                 switch (menuItem.getItemId()) {
@@ -80,6 +81,6 @@ public class MainActivity extends AppCompatActivity {
                             selectedFagrament).commit();
 
                 }
-                return;
+                return true;
             };
 }

@@ -13,15 +13,14 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseUser;
+import com.dev.insta.Fragment.PostDetailFragment;
+import com.dev.insta.Fragment.ProfileFragment;
+import com.dev.insta.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.dev.insta.Fragment.PostDetailFragment;
-import com.dev.insta.Fragment.ProfileFragment;
-import com.dev.insta.R;
 
 import java.util.List;
 
@@ -33,7 +32,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public Context mContext;
     public List<Notification> mNotification;
-    private FirebaseUser firebaseUser;
 
     public NotificationAdapter(Context mContext, List<Notification> mNotification) {
         this.mContext = mContext;
@@ -95,7 +93,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return mNotification.size();
     }
 
-    public  class  ViewHolder extends RecyclerView.ViewHolder{
+    class  ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView image_profile,post_image;
         public TextView username,text;
@@ -115,6 +113,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(publisgerid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
+
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 User user = dataSnapshot.getValue(User.class);

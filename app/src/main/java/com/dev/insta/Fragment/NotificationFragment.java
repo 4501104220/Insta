@@ -52,7 +52,6 @@ public class NotificationFragment extends Fragment {
 
         recyclerView.setAdapter(notificationAdapter);
 
-
         readNotifications();
         return view;
     }
