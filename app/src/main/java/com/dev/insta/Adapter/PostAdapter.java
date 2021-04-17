@@ -130,8 +130,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 FirebaseDatabase.getInstance().getReference().child("Saves").child(firebaseUser.getUid())
                         .child(post.getPostid()).setValue(true);
 
-            }else
-            {
+            }else {
                 FirebaseDatabase.getInstance().getReference().child("Saves").child(firebaseUser.getUid())
                         .child(post.getPostid()).removeValue();
             }
@@ -211,7 +210,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             publisher = itemView.findViewById(R.id.publisher);
             description = itemView.findViewById(R.id.descriptionnew);
             comments = itemView.findViewById(R.id.comments);
-
 
         }
     }

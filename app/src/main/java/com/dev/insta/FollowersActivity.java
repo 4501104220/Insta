@@ -2,7 +2,6 @@ package com.dev.insta;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,12 +9,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dev.insta.Adapter.UserAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.dev.insta.Adapter.UserAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,6 @@ public class FollowersActivity extends AppCompatActivity {
         recyclerView.setAdapter(userAdapter);
         idlist = new ArrayList<>();
         switch (title){
-
             case "likes":
                 getLikes();
                 break;
@@ -75,14 +73,7 @@ public class FollowersActivity extends AppCompatActivity {
         }
 
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                finish();
-
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
     }
 
     private void getViews(){
@@ -148,7 +139,6 @@ public class FollowersActivity extends AppCompatActivity {
                     idlist.add(Snapshot.getKey());
                 }
                 showUsers();
-
             }
 
             @Override

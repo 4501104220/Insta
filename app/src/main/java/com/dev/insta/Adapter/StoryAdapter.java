@@ -3,7 +3,6 @@ package com.dev.insta.Adapter;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.dev.insta.AddStoryActivity;
+import com.dev.insta.R;
+import com.dev.insta.StoryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.dev.insta.AddStoryActivity;
-import com.dev.insta.R;
-import com.dev.insta.StoryActivity;
 
 import java.util.List;
 
@@ -77,20 +76,17 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
         }
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        viewHolder.itemView.setOnClickListener(view -> {
 
-                if(viewHolder.getAdapterPosition() == 0){
+            if(viewHolder.getAdapterPosition() == 0){
 
-                    myStory(viewHolder.addstory_text,viewHolder.story_plus,true);
+                myStory(viewHolder.addstory_text,viewHolder.story_plus,true);
 
-                }else {
+            }else {
 
-                    Intent intent = new Intent(mContext, StoryActivity.class);
-                    intent.putExtra("userid", story.getUserid());
-                    mContext.startActivity(intent);
-                }
+                Intent intent = new Intent(mContext, StoryActivity.class);
+                intent.putExtra("userid", story.getUserid());
+                mContext.startActivity(intent);
             }
         });
 
@@ -143,9 +139,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
                    viewHolder.story_username.setText(user.getUsername());
 
                }
-
-
-
             }
 
             @Override
@@ -153,7 +146,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
             }
         });
-
     }
 
     private void myStory(final TextView textView, final ImageView imageView, final boolean click){
@@ -166,7 +158,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
                 int count = 0;
                 long timecurrent = System.currentTimeMillis();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
@@ -175,7 +166,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
                         count++;
                     }
-
                 }
 
                 if(click){
@@ -183,27 +173,21 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
                     if(count >0){
                         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "View story",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                (dialogInterface, i) -> {
 
-                                        Intent intent = new Intent(mContext, StoryActivity.class);
-                                        intent.putExtra("userid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                        mContext.startActivity(intent);
-                                        dialogInterface.dismiss();
+                                    Intent intent = new Intent(mContext, StoryActivity.class);
+                                    intent.putExtra("userid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                    mContext.startActivity(intent);
+                                    dialogInterface.dismiss();
 
-                                    }
                                 });
 
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Add story",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent intent = new Intent(mContext, AddStoryActivity.class);
-                                        mContext.startActivity(intent);
-                                        dialogInterface.dismiss();
+                                (dialogInterface, i) -> {
+                                    Intent intent = new Intent(mContext, AddStoryActivity.class);
+                                    mContext.startActivity(intent);
+                                    dialogInterface.dismiss();
 
-                                    }
                                 });
                         alertDialog.show();
                     }else {
@@ -251,7 +235,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
                         i++;
 
                     }
-
                 }
 
                 if(i> 0){
@@ -263,7 +246,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
                     viewHolder.story_photo.setVisibility(View.GONE);
                     viewHolder.story_photo_seen.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
@@ -271,6 +253,5 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
             }
         });
-
     }
 }

@@ -12,9 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -63,37 +60,34 @@ public class LoginActivity extends AppCompatActivity {
 
             }else {
 
-                mauth.signInWithEmailAndPassword(str_email,str_password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                mauth.signInWithEmailAndPassword(str_email,str_password).addOnCompleteListener(LoginActivity.this, task -> {
 
-                        if (task.isSuccessful()){
+                    if (task.isSuccessful()){
 
-                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
-                                    .child(mauth.getCurrentUser().getUid());
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
+                                .child(mauth.getCurrentUser().getUid());
 
-                            reference.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                    pd.dismiss();
+                                pd.dismiss();
 
-                                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    finish();
+                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
 
-                                }
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                    pd.dismiss();
-                                }
-                            });
-                        }else {
-                            Toast.makeText(LoginActivity.this,"Authentication failed!", Toast.LENGTH_SHORT).show();
-                        }
+                                pd.dismiss();
+                            }
+                        });
+                    }else {
+                        Toast.makeText(LoginActivity.this,"Authentication failed!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

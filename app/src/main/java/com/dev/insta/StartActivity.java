@@ -36,7 +36,6 @@ public class StartActivity extends AppCompatActivity {
 
         login.setOnClickListener(view -> startActivity(new Intent(StartActivity.this,LoginActivity.class)));
 
-
         register.setOnClickListener(view -> startActivity(new Intent(StartActivity.this, RegisterActivity.class)));
 
     }

@@ -44,7 +44,7 @@ import Model.User;
  */
 public class ProfileFragment extends Fragment {
 
-    TextView posts,followers, following ,fullname,bio,username ;
+    TextView posts,followers,following,fullname,bio,username ;
     ImageView image_profile,options;
     Button edit_profile;
     FirebaseUser firebaseUser;
@@ -60,8 +60,6 @@ public class ProfileFragment extends Fragment {
     RecyclerView recyclerView_saves ;
     MyPhotosAdapter myPhotosAdapter_saves;
     List<Post> postList_saves ;
-
-
 
 
     @Override
@@ -86,8 +84,8 @@ public class ProfileFragment extends Fragment {
         edit_profile = view.findViewById(R.id.edit_profile);
         my_photos = view.findViewById(R.id.my_photos);
         saved_photos = view.findViewById(R.id.save_photos);
-
         recyclerView = view.findViewById(R.id.recycler_view);
+
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(),3);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -95,7 +93,6 @@ public class ProfileFragment extends Fragment {
         myPhotosAdapter = new MyPhotosAdapter(getContext(), postList);
 
         recyclerView.setAdapter(myPhotosAdapter);
-
 
         recyclerView_saves = view.findViewById(R.id.recycler_view_save);
         recyclerView_saves.setHasFixedSize(true);
@@ -109,13 +106,11 @@ public class ProfileFragment extends Fragment {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView_saves.setVisibility(View.GONE);
 
-
         userInfo();
         getFollowers();
         getNrPost();
         myphotos();
         mysaves();
-
 
         if(profileid.equals(firebaseUser.getUid())){
             edit_profile.setText("Edit Profile");
@@ -126,45 +121,39 @@ public class ProfileFragment extends Fragment {
         }
 
 
-        edit_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        edit_profile.setOnClickListener(view15 -> {
 
 
-                String btn = edit_profile.getText().toString();
-                if(btn.equals("Edit Profile")){
-                startActivity(new Intent(getContext(), EditProfileActivity.class));
+            String btn = edit_profile.getText().toString();
+            if(btn.equals("Edit Profile")){
+            startActivity(new Intent(getContext(), EditProfileActivity.class));
 
-                }else if(btn.equals("follow")){
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(profileid).setValue(true);
+            }else if(btn.equals("follow")){
+                FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                        .child("following").child(profileid).setValue(true);
 
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
-                            .child("followers").child(firebaseUser.getUid()).setValue(true);
+                FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
+                        .child("followers").child(firebaseUser.getUid()).setValue(true);
 
-                   addNotifications();
+               addNotifications();
 
-                }else if(btn.equals("following")){
+            }else if(btn.equals("following")){
 
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(profileid).removeValue();
+                FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
+                        .child("following").child(profileid).removeValue();
 
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
-                            .child("followers").child(firebaseUser.getUid()).removeValue();
+                FirebaseDatabase.getInstance().getReference().child("Follow").child(profileid)
+                        .child("followers").child(firebaseUser.getUid()).removeValue();
 
 
-                }
             }
         });
 
 
-        options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), OptionsActivity.class);
+        options.setOnClickListener(view16 -> {
+            Intent intent = new Intent(getContext(), OptionsActivity.class);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
 
@@ -224,7 +213,6 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if(getContext() == null){
-
                     return;
                 }
 
@@ -233,7 +221,6 @@ public class ProfileFragment extends Fragment {
                 username.setText(user.getUsername());
                 fullname.setText(user.getFullname());
                 bio.setText(user.getBio());
-
             }
 
             @Override
@@ -258,7 +245,6 @@ public class ProfileFragment extends Fragment {
                }else {
                    edit_profile.setText("follow");
                }
-
            }
 
            @Override
@@ -266,8 +252,6 @@ public class ProfileFragment extends Fragment {
 
            }
        });
-
-
     }
 
     private void getFollowers(){
@@ -280,7 +264,6 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 followers.setText(""+dataSnapshot.getChildrenCount());
-
             }
 
             @Override
@@ -305,8 +288,6 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
-
     }
 
     private void  getNrPost(){
@@ -316,20 +297,15 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
                 int i = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
 
                     Post post = snapshot.getValue(Post.class);
                     if (post.getPublisher().equals(profileid)){
                         i++;
-
-
                     }
                 }
-
                 posts.setText(""+i);
-
             }
 
             @Override
@@ -355,10 +331,9 @@ public class ProfileFragment extends Fragment {
                     if(post.getPublisher().equals(profileid)){
                         postList.add(post);
 
-
                     }
-
                 }
+
                 Collections.reverse(postList);
                 myPhotosAdapter.notifyDataSetChanged();
             }
@@ -368,7 +343,6 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
     }
 
     private  void mysaves(){
@@ -416,11 +390,8 @@ public class ProfileFragment extends Fragment {
                             postList_saves.add(post);
 
                         }
-
                     }
-
                 }
-
                 myPhotosAdapter_saves.notifyDataSetChanged();
             }
 
@@ -430,5 +401,4 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
 }

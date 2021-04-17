@@ -98,8 +98,6 @@ public class EditProfileActivity extends AppCompatActivity {
         save.setOnClickListener(view -> updateProfile(fullname.getText().toString(),
                 username.getText().toString(),
                 bio.getText().toString()));
-
-
     }
 
     private void updateProfile(String fullname, String username, String bio) {
@@ -168,7 +166,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
             }).addOnFailureListener(e -> Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
         }else {
-            Toast.makeText(com.dev.insta.EditProfileActivity.this, "No image selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(com.dev.insta.EditProfileActivity.this, "No image selected!", Toast.LENGTH_SHORT).show();
         }
     }
 

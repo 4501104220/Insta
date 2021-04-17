@@ -78,7 +78,7 @@ public class CommentsActivity extends AppCompatActivity {
 
             if(addcomment.getText().toString().equals("")){
 
-                Toast.makeText(CommentsActivity.this, "You can't not send empty comment", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommentsActivity.this, "You can't not send empty comment!", Toast.LENGTH_SHORT).show();
             }
             else {
                 addcomment();

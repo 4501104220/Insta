@@ -94,7 +94,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     private void getUserInfo(final ImageView imageView, final TextView username, String publisherid) {
 
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(publisherid);
 
         reference.addValueEventListener(new ValueEventListener() {
