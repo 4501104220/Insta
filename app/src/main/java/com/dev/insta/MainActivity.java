@@ -3,9 +3,7 @@ package com.dev.insta;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -51,40 +49,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private BottomNavigationView.OnNavigationItemReselectedListener navigationItemSelectedListner =
-            new BottomNavigationView.OnNavigationItemReselectedListener() {
-                @Override
-                public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+            menuItem -> {
 
-                    switch (menuItem.getItemId()) {
-                        case R.id.nav_home:
-                            selectedFagrament = new HomeFragment();
-                            break;
-                        case R.id.nav_search:
-                            selectedFagrament = new SearchFragment();
-                            break;
-                        case R.id.nav_add:
-                            selectedFagrament = null;
-                            startActivity(new Intent(com.dev.insta.MainActivity.this, PostActivity.class));
-                            break;
-                        case R.id.nav_heart:
-                            selectedFagrament = new NotificationFragment();
-                            break;
-                        case R.id.nav_profile:
-                            SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
-                            editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            editor.apply();
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        selectedFagrament = new HomeFragment();
+                        break;
+                    case R.id.nav_search:
+                        selectedFagrament = new SearchFragment();
+                        break;
+                    case R.id.nav_add:
+                        selectedFagrament = null;
+                        startActivity(new Intent(MainActivity.this, PostActivity.class));
+                        break;
+                    case R.id.nav_heart:
+                        selectedFagrament = new NotificationFragment();
+                        break;
+                    case R.id.nav_profile:
+                        SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
+                        editor.putString("profileid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        editor.apply();
 
-                            selectedFagrament = new ProfileFragment();
-                            break;
-                    }
-
-                    if (selectedFagrament != null) {
-
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                selectedFagrament).commit();
-
-                    }
-                    return;
+                        selectedFagrament = new ProfileFragment();
+                        break;
                 }
+
+                if (selectedFagrament != null) {
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFagrament).commit();
+
+                }
+                return;
             };
 }

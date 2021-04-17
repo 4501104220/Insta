@@ -46,7 +46,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.notification_item,viewGroup,false);
 
-
         return new ViewHolder(view);
     }
 
@@ -67,32 +66,28 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.itemView.setOnClickListener(view -> {
 
-                if(notification.isIspost()){
+            if(notification.isIspost()){
 
-                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                    editor.putString("postid",notification.getPostid());
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                editor.putString("postid",notification.getPostid());
 
-                    editor.apply();
-                    ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new PostDetailFragment()).commit();
-                }
-                else {
+                editor.apply();
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new PostDetailFragment()).commit();
+            }
+            else {
 
-                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                    editor.putString("profileid",notification.getUserid());
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+                editor.putString("profileid",notification.getUserid());
 
-                    editor.apply();
-                    ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ProfileFragment()).commit();
+                editor.apply();
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ProfileFragment()).commit();
 
-                }
             }
         });
-
     }
 
     @Override
@@ -108,10 +103,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            image_profile  = itemView.findViewById(R.id.image_profile);
-            post_image  = itemView.findViewById(R.id.post_image);
-            username  = itemView.findViewById(R.id.username);
-            text  = itemView.findViewById(R.id.comment);
+            image_profile = itemView.findViewById(R.id.image_profile);
+            post_image = itemView.findViewById(R.id.post_image);
+            username = itemView.findViewById(R.id.username);
+            text = itemView.findViewById(R.id.comment);
         }
     }
 
@@ -122,13 +117,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
                 User user = dataSnapshot.getValue(User.class);
 
                 Glide.with(mContext).load(user.getImageurl()).into(imageView);
 
                 username.setText(user.getUsername());
-
             }
 
             @Override
@@ -136,19 +129,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
             }
         });
-
     }
 
 
     private  void  getPostImage(final ImageView imageView , final String postid){
-
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
 
                 Post post = dataSnapshot.getValue(Post.class);
                 Glide.with(mContext).load(post.getPostimage()).into(imageView);
@@ -160,9 +150,5 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
             }
         });
-
     }
-
-
-
 }

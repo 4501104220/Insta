@@ -95,38 +95,23 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
 
 
         View reverse = findViewById(R.id.reverse);
-        reverse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                storiesProgressView.reverse();
-            }
-        });
+        reverse.setOnClickListener(view -> storiesProgressView.reverse());
 
         reverse.setOnTouchListener(onTouchListener);
 
 
         View skip = findViewById(R.id.skip);
-        reverse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                storiesProgressView.skip();
-            }
-        });
+        reverse.setOnClickListener(view -> storiesProgressView.skip());
 
         skip.setOnTouchListener(onTouchListener);
 
-        r_seen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        r_seen.setOnClickListener(view -> {
 
-                Intent intent = new Intent(com.dev.insta.StoryActivity.this, com.dev.insta.FollowersActivity.class);
-                intent.putExtra("id", userid);
-                intent.putExtra("storyid", storyids.get(counter));
-                intent.putExtra("title", "views");
-                startActivity(intent);
-            }
+            Intent intent = new Intent(StoryActivity.this, FollowersActivity.class);
+            intent.putExtra("id", userid);
+            intent.putExtra("storyid", storyids.get(counter));
+            intent.putExtra("title", "views");
+            startActivity(intent);
         });
 
         story_delete.setOnClickListener(view -> {
@@ -143,8 +128,6 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
 
             });
         });
-
-
     }
 
     @Override
@@ -168,14 +151,12 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
     public void onComplete() {
 
         finish();
-
     }
 
     @Override
     protected void onDestroy() {
         storiesProgressView.destroy();
         super.onDestroy();
-
     }
 
     @Override

@@ -6,9 +6,8 @@ public class Comment {
     private String publisher;
 
     public Comment() {
-
-
     }
+
 
     public Comment(String comment, String publisher) {
         this.comment = comment;

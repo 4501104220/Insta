@@ -39,7 +39,6 @@ private List<User> mUsers;
 EditText search_bar ;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

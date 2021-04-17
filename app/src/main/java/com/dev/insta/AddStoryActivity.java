@@ -8,14 +8,11 @@ import android.os.Bundle;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -66,54 +63,43 @@ public class AddStoryActivity extends AppCompatActivity {
             +"."+ getFileExtensions(mImageUrl));
 
             mStorageTask = imageReferance.putFile(mImageUrl);
-            mStorageTask.continueWithTask(new Continuation() {
-                @Override
-                public Object then(@NonNull Task task) throws Exception {
+            mStorageTask.continueWithTask((Continuation) task -> {
 
-                    if(!task.isSuccessful())
-                    {
-                        throw task.getException();
+                if(!task.isSuccessful())
+                {
+                    throw task.getException();
 
-                    }
-                    return imageReferance.getDownloadUrl();
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
+                return imageReferance.getDownloadUrl();
+            }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
 
-                    if(task.isSuccessful()){
+                if(task.isSuccessful()){
 
-                        Uri downloadUri = task.getResult();
-                        myUrl = downloadUri.toString();
+                    Uri downloadUri = task.getResult();
+                    myUrl = downloadUri.toString();
 
-                        String myid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
-                                .child(myid);
-                        String storyid = reference.push().getKey();
-                        long timend = System.currentTimeMillis()+86400000;
+                    String myid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
+                            .child(myid);
+                    String storyid = reference.push().getKey();
+                    long timend = System.currentTimeMillis()+86400000;
 
-                        HashMap<String, Object> hashMap = new HashMap<>();
+                    HashMap<String, Object> hashMap = new HashMap<>();
 
-                        hashMap.put("imageurl",myUrl);
-                        hashMap.put("timestart", ServerValue.TIMESTAMP);
-                        hashMap.put("timeend",timend);
-                        hashMap.put("storyid",storyid);
-                        hashMap.put("userid",myid);
+                    hashMap.put("imageurl",myUrl);
+                    hashMap.put("timestart", ServerValue.TIMESTAMP);
+                    hashMap.put("timeend",timend);
+                    hashMap.put("storyid",storyid);
+                    hashMap.put("userid",myid);
 
-                        reference.child(storyid).setValue(hashMap);
-                        pd.dismiss();
-                        finish();
+                    reference.child(storyid).setValue(hashMap);
+                    pd.dismiss();
+                    finish();
 
-                    }else {
-                        Toast.makeText(com.dev.insta.AddStoryActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
-                    }
+                }else {
+                    Toast.makeText(AddStoryActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(com.dev.insta.AddStoryActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            }).addOnFailureListener(e -> Toast.makeText(AddStoryActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
 
 
         }else {

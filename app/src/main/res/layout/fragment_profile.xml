@@ -195,7 +195,6 @@
 
 
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -243,7 +242,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/my_fotos"
+                android:id="@+id/my_photos"
                 android:src="@drawable/ic_grid"
                 style="?android:attr/buttonBarButtonStyle"
 
@@ -253,7 +252,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/save_fotos"
+                android:id="@+id/save_photos"
                 android:src="@drawable/ic_save"
                 style="?android:attr/buttonBarButtonStyle"
 
@@ -274,6 +273,5 @@
 
 
     </LinearLayout>
-
     </ScrollView>
 </RelativeLayout>

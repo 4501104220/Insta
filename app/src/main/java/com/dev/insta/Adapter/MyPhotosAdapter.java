@@ -19,12 +19,12 @@ import java.util.List;
 
 import Model.Post;
 
-public class MyFotosAdapter extends  RecyclerView.Adapter<MyFotosAdapter.ViewHolder> {
+public class MyPhotosAdapter extends  RecyclerView.Adapter<MyPhotosAdapter.ViewHolder> {
 
     private Context context ;
     private List<Post> mPosts;
 
-    public MyFotosAdapter(Context context, List<Post> mPosts) {
+    public MyPhotosAdapter(Context context, List<Post> mPosts) {
         this.context = context;
         this.mPosts = mPosts;
     }
@@ -33,7 +33,7 @@ public class MyFotosAdapter extends  RecyclerView.Adapter<MyFotosAdapter.ViewHol
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.fotos_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.photos_item,parent,false);
 
         return new ViewHolder(view);
     }
@@ -45,20 +45,15 @@ public class MyFotosAdapter extends  RecyclerView.Adapter<MyFotosAdapter.ViewHol
         Glide.with(context).load(post.getPostimage()).into(viewholder.post_image);
 
 
-        viewholder.post_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        viewholder.post_image.setOnClickListener(view -> {
 
-                SharedPreferences.Editor editor = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                editor.putString("postid",post.getPostid());
-                editor.apply();
-                ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new PostDetailFragment()).commit();
+            SharedPreferences.Editor editor = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
+            editor.putString("postid",post.getPostid());
+            editor.apply();
+            ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new PostDetailFragment()).commit();
 
-            }
         });
-
-
     }
 
     @Override
@@ -70,12 +65,10 @@ public class MyFotosAdapter extends  RecyclerView.Adapter<MyFotosAdapter.ViewHol
 
         public ImageView post_image;
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             post_image = itemView.findViewById(R.id.post_image);
-
         }
     }
 }

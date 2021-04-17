@@ -2,7 +2,6 @@ package com.dev.insta;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.dev.insta.Adapter.CommentAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.dev.insta.Adapter.CommentAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,14 +52,7 @@ public class CommentsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Comments");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                finish();
-
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         addcomment = findViewById(R.id.add_comment);
         image_profile = findViewById(R.id.image_profile);
@@ -82,17 +74,14 @@ public class CommentsActivity extends AppCompatActivity {
         postid = intent.getStringExtra("postid");
         publisherid = intent.getStringExtra("publisherid");
 
-        post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        post.setOnClickListener(view -> {
 
-                if(addcomment.getText().toString().equals("")){
+            if(addcomment.getText().toString().equals("")){
 
-                    Toast.makeText(com.dev.insta.CommentsActivity.this, "You can't not send empty comment", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    addcomment();
-                }
+                Toast.makeText(CommentsActivity.this, "You can't not send empty comment", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                addcomment();
             }
         });
 

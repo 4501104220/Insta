@@ -1,6 +1,5 @@
 package com.dev.insta.Fragment;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.dev.insta.Adapter.MyFotosAdapter;
+import com.dev.insta.Adapter.MyPhotosAdapter;
 import com.dev.insta.EditProfileActivity;
 import com.dev.insta.FollowersActivity;
 import com.dev.insta.OptionsActivity;
@@ -50,16 +49,16 @@ public class ProfileFragment extends Fragment {
     Button edit_profile;
     FirebaseUser firebaseUser;
     String profileid;
-    ImageView my_fotos, saved_fotos;
+    ImageView my_photos, saved_photos;
 
     RecyclerView recyclerView ;
-    MyFotosAdapter myFotosAdapter;
+    MyPhotosAdapter myPhotosAdapter;
     List<Post> postList ;
 
 
     private List<String> mySaves;
     RecyclerView recyclerView_saves ;
-    MyFotosAdapter myFotosAdapter_saves;
+    MyPhotosAdapter myPhotosAdapter_saves;
     List<Post> postList_saves ;
 
 
@@ -85,17 +84,17 @@ public class ProfileFragment extends Fragment {
         bio = view.findViewById(R.id.bio);
         username = view.findViewById(R.id.username);
         edit_profile = view.findViewById(R.id.edit_profile);
-        my_fotos = view.findViewById(R.id.my_fotos);
-        saved_fotos = view.findViewById(R.id.save_fotos);
+        my_photos = view.findViewById(R.id.my_photos);
+        saved_photos = view.findViewById(R.id.save_photos);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(),3);
         recyclerView.setLayoutManager(linearLayoutManager);
         postList = new ArrayList<>();
-        myFotosAdapter  = new MyFotosAdapter(getContext(), postList);
+        myPhotosAdapter = new MyPhotosAdapter(getContext(), postList);
 
-        recyclerView.setAdapter(myFotosAdapter);
+        recyclerView.setAdapter(myPhotosAdapter);
 
 
         recyclerView_saves = view.findViewById(R.id.recycler_view_save);
@@ -103,9 +102,9 @@ public class ProfileFragment extends Fragment {
         LinearLayoutManager linearLayoutManager1 = new GridLayoutManager(getContext(),3);
         recyclerView_saves.setLayoutManager(linearLayoutManager1);
         postList_saves = new ArrayList<>();
-        myFotosAdapter_saves  = new MyFotosAdapter(getContext(), postList_saves);
+        myPhotosAdapter_saves = new MyPhotosAdapter(getContext(), postList_saves);
 
-        recyclerView_saves.setAdapter(myFotosAdapter_saves);
+        recyclerView_saves.setAdapter(myPhotosAdapter_saves);
 
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView_saves.setVisibility(View.GONE);
@@ -114,7 +113,7 @@ public class ProfileFragment extends Fragment {
         userInfo();
         getFollowers();
         getNrPost();
-        myFotos();
+        myphotos();
         mysaves();
 
 
@@ -123,7 +122,7 @@ public class ProfileFragment extends Fragment {
 
         }else {
             checkFollow();
-            saved_fotos.setVisibility(View.GONE);
+            saved_photos.setVisibility(View.GONE);
         }
 
 
@@ -169,48 +168,36 @@ public class ProfileFragment extends Fragment {
         });
 
 
-        my_fotos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        my_photos.setOnClickListener(view1 -> {
 
-                recyclerView.setVisibility(View.VISIBLE);
-                recyclerView_saves.setVisibility(View.GONE);
-                saved_fotos.setImageResource(R.drawable.ic_save);
-            }
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView_saves.setVisibility(View.GONE);
+            saved_photos.setImageResource(R.drawable.ic_save);
         });
 
-        followers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        followers.setOnClickListener(view12 -> {
 
-                Intent intent = new Intent(getContext(), FollowersActivity.class);
-                intent.putExtra("id", profileid);
-                intent.putExtra("title","followers");
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getContext(), FollowersActivity.class);
+            intent.putExtra("id", profileid);
+            intent.putExtra("title","followers");
+            startActivity(intent);
         });
 
-        following.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        following.setOnClickListener(view13 -> {
 
-                Intent intent = new Intent(getContext(), FollowersActivity.class);
-                intent.putExtra("id", profileid);
-                intent.putExtra("title","following");
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getContext(), FollowersActivity.class);
+            intent.putExtra("id", profileid);
+            intent.putExtra("title","following");
+            startActivity(intent);
         });
 
 
-        saved_fotos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        saved_photos.setOnClickListener(view14 -> {
 
-                recyclerView.setVisibility(View.GONE);
-                recyclerView_saves.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            recyclerView_saves.setVisibility(View.VISIBLE);
 
-                saved_fotos.setImageResource(R.drawable.ic_save_black);
-            }
+            saved_photos.setImageResource(R.drawable.ic_save_black);
         });
         return view;
     }
@@ -226,10 +213,8 @@ public class ProfileFragment extends Fragment {
         hashMap.put("postid","");
         hashMap.put("ispost",false);
 
-
         reference.push().setValue(hashMap);
     }
-
 
 
     private  void  userInfo(){
@@ -355,7 +340,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    private  void  myFotos(){
+    private  void  myphotos(){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
         reference.addValueEventListener(new ValueEventListener() {
@@ -375,7 +360,7 @@ public class ProfileFragment extends Fragment {
 
                 }
                 Collections.reverse(postList);
-                myFotosAdapter.notifyDataSetChanged();
+                myPhotosAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -436,7 +421,7 @@ public class ProfileFragment extends Fragment {
 
                 }
 
-                myFotosAdapter_saves.notifyDataSetChanged();
+                myPhotosAdapter_saves.notifyDataSetChanged();
             }
 
             @Override

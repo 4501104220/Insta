@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -45,38 +44,30 @@ public class RegisterActivity extends AppCompatActivity {
 
         mauth = FirebaseAuth.getInstance();
         
-        text_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegisterActivity.this, com.dev.insta.LoginActivity.class));
-            }
-        });
+        text_login.setOnClickListener(view -> startActivity(new Intent(RegisterActivity.this, LoginActivity.class)));
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        register.setOnClickListener(view -> {
 
-              pd = new ProgressDialog(RegisterActivity.this);
-              pd.setMessage("Please wait...");
-              pd.show();
-              
-              String str_username= username.getText().toString();
-              String str_fullname= fullname.getText().toString();
-              String str_email= email.getText().toString();
-              String str_password= password.getText().toString();
+          pd = new ProgressDialog(RegisterActivity.this);
+          pd.setMessage("Please wait...");
+          pd.show();
 
-                if(TextUtils.isEmpty(str_username) || TextUtils.isEmpty(
-                        str_fullname) || TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password)){
+          String str_username= username.getText().toString();
+          String str_fullname= fullname.getText().toString();
+          String str_email= email.getText().toString();
+          String str_password= password.getText().toString();
 
-                    Toast.makeText(RegisterActivity.this,"All fields are required", Toast.LENGTH_SHORT).show();
+            if(TextUtils.isEmpty(str_username) || TextUtils.isEmpty(
+                    str_fullname) || TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password)){
 
-                }else if(str_password.length()<6) {
-                    Toast.makeText(RegisterActivity.this,"Password must have 6 characters", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this,"All fields are required!", Toast.LENGTH_SHORT).show();
 
-                }else {
-                    register(str_username, str_fullname, str_email, str_password);
+            }else if(str_password.length()<6) {
+                Toast.makeText(RegisterActivity.this,"Password must have 6 characters!", Toast.LENGTH_SHORT).show();
 
-                }
+            }else {
+                register(str_username, str_fullname, str_email, str_password);
+
             }
         });
     }
@@ -100,22 +91,19 @@ public class RegisterActivity extends AppCompatActivity {
                     hashMap.put("bio","");
                     hashMap.put("imageurl","https://firebasestorage.googleapis.com/v0/b/instagramappdatabase.appspot.com/o/120x120profile.png?alt=media&token=2858c7bc-58da-430a-9d20-89f6ea2f62e7");
 
-                    reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                    reference.setValue(hashMap).addOnCompleteListener(task1 -> {
 
-                            if(task.isSuccessful()){
+                        if(task1.isSuccessful()){
 
-                                pd.dismiss();
-                                Intent intent = new Intent(RegisterActivity.this , com.dev.insta.StartActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
+                            pd.dismiss();
+                            Intent intent = new Intent(RegisterActivity.this , StartActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         }
                     });
                 }else {
                     pd.dismiss();
-                    Toast.makeText(RegisterActivity.this,"You can not register with this email and password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"You can not register with this email and password!", Toast.LENGTH_SHORT).show();
 
                 }
             }

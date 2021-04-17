@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,46 +83,21 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        close.setOnClickListener(view -> finish());
 
-                finish();
-            }
-        });
+        tv_change.setOnClickListener(view -> CropImage.activity()
+                .setAspectRatio(1,1)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .start(EditProfileActivity.this));
 
-        tv_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        image_profile.setOnClickListener(view -> CropImage.activity()
+                .setAspectRatio(1,1)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .start(EditProfileActivity.this));
 
-                CropImage.activity()
-                        .setAspectRatio(1,1)
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .start(com.dev.insta.EditProfileActivity.this);
-            }
-        });
-
-        image_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                CropImage.activity()
-                        .setAspectRatio(1,1)
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .start(com.dev.insta.EditProfileActivity.this);
-            }
-        });
-
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                updateProfile(fullname.getText().toString(),
-                        username.getText().toString(),
-                        bio.getText().toString());
-
-            }
-        });
+        save.setOnClickListener(view -> updateProfile(fullname.getText().toString(),
+                username.getText().toString(),
+                bio.getText().toString()));
 
 
     }
@@ -172,39 +145,28 @@ public class EditProfileActivity extends AppCompatActivity {
                     return filereferance.getDownloadUrl();
 
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
+            }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
 
-                    if(task.isSuccessful()){
+                if(task.isSuccessful()){
 
-                        Uri downloadUrl = task.getResult();
+                    Uri downloadUrl = task.getResult();
 
-                       String myUrl = downloadUrl.toString();
+                   String myUrl = downloadUrl.toString();
 
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-                        HashMap<String, Object> hashMap = new HashMap<>();
+                    HashMap<String, Object> hashMap = new HashMap<>();
 
-                        hashMap.put("imageurl",""+myUrl);
+                    hashMap.put("imageurl",""+myUrl);
 
-                        reference.updateChildren(hashMap);
+                    reference.updateChildren(hashMap);
 
-                        progressDialog.dismiss();
+                    progressDialog.dismiss();
 
-                    } else {
-                        Toast.makeText(com.dev.insta.EditProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
-                    }
+                } else {
+                    Toast.makeText(EditProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
-
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-
-                    Toast.makeText(com.dev.insta.EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            }).addOnFailureListener(e -> Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
         }else {
             Toast.makeText(com.dev.insta.EditProfileActivity.this, "No image selected", Toast.LENGTH_SHORT).show();
         }
