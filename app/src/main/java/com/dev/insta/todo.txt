@@ -1,3 +1,24 @@
 add file post_menu.xml, add feature edit, delete (owner post), report(all user)
+src/main/java/com/dev/insta/Adapter/PostAdapter.java
 
-fix onclick replace double click
+show email, email authentication
+
+return button in option bar
+
+edit logo
+
+edit layout login, register
+
+chat realtime
+
+comment with emoji
+
+log in with facebook, google, twitter
+
+ Instagram Hashtag
+
+ dark mode
+
+ https://github.com/search?l=Java&q=instagram+clone&type=Repositories
+
+click 2 to love

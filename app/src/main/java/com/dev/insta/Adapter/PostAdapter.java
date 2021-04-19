@@ -274,7 +274,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
 
-    private  void nrLikes(final TextView likes , String postid){
+    private void nrLikes(final TextView likes , String postid){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Likes").child(postid);
 
@@ -294,7 +294,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
 
-    private  void  publisherinfo(final ImageView image_profile, final TextView username , final TextView publisher , String userid ){
+    private void publisherinfo(final ImageView image_profile, final TextView username , final TextView publisher , String userid ){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
@@ -318,7 +318,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
 
-    private  void  isSaved(final String postid, final ImageView imageView){
+    private void isSaved(final String postid, final ImageView imageView){
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Saves").child(firebaseUser.getUid());

@@ -52,7 +52,7 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
             switch (motionEvent.getAction()){
 
                 case MotionEvent.ACTION_DOWN:
-                    pressTime  = System.currentTimeMillis();
+                    pressTime = System.currentTimeMillis();
                     storiesProgressView.pause();
                     return false;
                 case MotionEvent.ACTION_UP:
@@ -74,7 +74,7 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
         story_delete = findViewById(R.id.story_delete);
 
 
-        storiesProgressView  = findViewById(R.id.stories);
+        storiesProgressView = findViewById(R.id.stories);
         image = findViewById(R.id.image);
         story_photo = findViewById(R.id.story_photo);
         story_username = findViewById(R.id.story_username);
@@ -243,7 +243,7 @@ public class StoryActivity extends AppCompatActivity implements StoriesProgressV
 
     }
 
-    private  void  seenNumber (String storyid){
+    private void seenNumber(String storyid){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
                 .child(userid).child(storyid).child("views");
