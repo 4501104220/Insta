@@ -15,10 +15,15 @@ comment with emoji
 
 log in with facebook, google, twitter
 
- Instagram Hashtag
+Instagram Hashtag
 
- dark mode
-
- https://github.com/search?l=Java&q=instagram+clone&type=Repositories
+dark mode
 
 click 2 to love
+
+edit profile
+view email
+
+reset pass
+
+
