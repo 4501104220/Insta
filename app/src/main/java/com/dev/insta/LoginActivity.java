@@ -40,14 +40,12 @@ public class LoginActivity extends AppCompatActivity {
 
         text_signup.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
 
-
         login.setOnClickListener(view -> {
 
             pd = new ProgressDialog(LoginActivity.this);
             pd.setMessage("Please wait...");
             pd.show();
-          //  String str_username= username.getText().toString();
-          //  String str_fullname= fullname.getText().toString();
+
             String str_email= email.getText().toString();
             String str_password= password.getText().toString();
 
@@ -77,12 +75,10 @@ public class LoginActivity extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
-
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
                                 pd.dismiss();
                             }
                         });

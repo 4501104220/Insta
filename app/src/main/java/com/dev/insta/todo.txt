@@ -1,17 +1,15 @@
 add file post_menu.xml, add feature edit, delete (owner post), report(all user)
 src/main/java/com/dev/insta/Adapter/PostAdapter.java
 
-show email, email authentication
-
 return button in option bar
 
-edit logo
+//edit logo
 
-edit layout login, register
+//edit layout login, register
 
-chat realtime
+--chat realtime
 
-comment with emoji
+//comment with emoji
 
 log in with facebook, google, twitter
 
@@ -23,6 +21,7 @@ click 2 to love
 
 edit profile
 view email
+show email, email authentication
 
 reset pass
 
