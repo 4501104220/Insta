@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mauth = FirebaseAuth.getInstance();
         
-        text_login.setOnClickListener(view -> startActivity(new Intent(RegisterActivity.this, RegisterActivity.class)));
+        text_login.setOnClickListener(view -> startActivity(new Intent(RegisterActivity.this, LoginActivity.class)));
 
         register.setOnClickListener(view -> {
 
@@ -98,7 +98,6 @@ public class RegisterActivity extends AppCompatActivity {
             }else {
                 pd.dismiss();
                 Toast.makeText(RegisterActivity.this,"You can not register with this email and password!", Toast.LENGTH_SHORT).show();
-
             }
         });
     }

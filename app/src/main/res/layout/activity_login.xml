@@ -147,10 +147,11 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="41dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Don't have an account? "
+            android:textSize="20sp"
             android:textColor="@color/colorGrey2" />
 
         <TextView
@@ -162,6 +163,7 @@
             android:background="@drawable/rounded_selected"
             android:gravity="center"
             android:text="Register"
+            android:textSize="20sp"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold">
         </TextView>
