@@ -9,12 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mauth = FirebaseAuth.getInstance();
         
-        text_login.setOnClickListener(view -> startActivity(new Intent(RegisterActivity.this, LoginActivity.class)));
+        text_login.setOnClickListener(view -> startActivity(new Intent(RegisterActivity.this, RegisterActivity.class)));
 
         register.setOnClickListener(view -> {
 
@@ -74,38 +70,35 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void register(final String username , final String fullname, final String email , String password){
 
-        mauth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+        mauth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(RegisterActivity.this, task -> {
 
-                if(task.isSuccessful()){
+            if(task.isSuccessful()){
 
-                    FirebaseUser firebaseUser = mauth.getCurrentUser();
-                    String userid  = firebaseUser.getUid();
-                    reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
-                    HashMap<String, Object> hashMap = new HashMap<>();
+                FirebaseUser firebaseUser = mauth.getCurrentUser();
+                String userid  = firebaseUser.getUid();
+                reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
+                HashMap<String, Object> hashMap = new HashMap<>();
 
-                    hashMap.put("id",userid);
-                    hashMap.put("username",username);
-                    hashMap.put("fullname",fullname);
-                    hashMap.put("bio","");
-                    hashMap.put("imageurl","https://firebasestorage.googleapis.com/v0/b/instagramappdatabase.appspot.com/o/120x120profile.png?alt=media&token=2858c7bc-58da-430a-9d20-89f6ea2f62e7");
+                hashMap.put("id",userid);
+                hashMap.put("username",username);
+                hashMap.put("fullname",fullname);
+                hashMap.put("bio","");
+                hashMap.put("imageurl","https://firebasestorage.googleapis.com/v0/b/instagramappdatabase.appspot.com/o/120x120profile.png?alt=media&token=2858c7bc-58da-430a-9d20-89f6ea2f62e7");
 
-                    reference.setValue(hashMap).addOnCompleteListener(task1 -> {
+                reference.setValue(hashMap).addOnCompleteListener(task1 -> {
 
-                        if(task1.isSuccessful()){
+                    if(task1.isSuccessful()){
 
-                            pd.dismiss();
-                            Intent intent = new Intent(RegisterActivity.this , StartActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                    });
-                }else {
-                    pd.dismiss();
-                    Toast.makeText(RegisterActivity.this,"You can not register with this email and password!", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        Intent intent = new Intent(RegisterActivity.this , LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+            }else {
+                pd.dismiss();
+                Toast.makeText(RegisterActivity.this,"You can not register with this email and password!", Toast.LENGTH_SHORT).show();
 
-                }
             }
         });
     }

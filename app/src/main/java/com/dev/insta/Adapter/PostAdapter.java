@@ -25,8 +25,6 @@ import com.dev.insta.FollowersActivity;
 import com.dev.insta.Fragment.PostDetailFragment;
 import com.dev.insta.Fragment.ProfileFragment;
 import com.dev.insta.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -265,12 +263,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     if (snapshot.child("postid").getValue().equals(postid)){
                         snapshot.getRef().removeValue()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(mContext, "Deleted!", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                .addOnCompleteListener(task -> Toast.makeText(mContext, "Deleted!", Toast.LENGTH_SHORT).show());
                     }
                 }
             }

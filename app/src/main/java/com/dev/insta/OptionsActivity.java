@@ -25,12 +25,12 @@ public class OptionsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Options");
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(view -> finish());
 
         logout.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(OptionsActivity.this, StartActivity.class)
+            startActivity(new Intent(OptionsActivity.this, LoginActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
     }

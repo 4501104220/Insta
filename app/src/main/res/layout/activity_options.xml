@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorAccent"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,13 +27,13 @@
         android:textSize="18sp"
         android:layout_margin="8dp"
         android:textColor="@color/colorPrimaryDark"
-
         />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorAccent"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +42,6 @@
         android:textSize="18sp"
         android:layout_margin="8dp"
         android:textColor="@color/colorPrimaryDark"
-
         />
 
     <View

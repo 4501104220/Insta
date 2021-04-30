@@ -1,7 +1,7 @@
-add file post_menu.xml, add feature edit, delete (owner post), report(all user)
-src/main/java/com/dev/insta/Adapter/PostAdapter.java
+//add file post_menu.xml, add feature edit, delete (owner post), report(all user)
+//src/main/java/com/dev/insta/Adapter/PostAdapter.java
 
-return button in option bar
+//return button in option bar
 
 //edit logo
 
@@ -11,16 +11,18 @@ return button in option bar
 
 //comment with emoji
 
+
+
+--Instagram Hashtag
+
+--dark mode
+
+--click 2 to love
+
 log in with facebook, google, twitter
 
-Instagram Hashtag
+//edit profile
 
-dark mode
-
-click 2 to love
-
-edit profile
-view email
 show email, email authentication
 
 reset pass
