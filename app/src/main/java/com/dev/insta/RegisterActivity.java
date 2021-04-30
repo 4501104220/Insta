@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void register(final String username , final String fullname, final String email , String password){
+    private void register(final String username, final String fullname, final String email , String password){
 
         mauth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(RegisterActivity.this, task -> {
 

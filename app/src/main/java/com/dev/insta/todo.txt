@@ -19,12 +19,12 @@
 
 --click 2 to love
 
-log in with facebook, google, twitter
+--log in with facebook, google, twitter
 
 //edit profile
 
-show email, email authentication
+--show email, email authentication
 
-reset pass
+--reset pass
 
 
