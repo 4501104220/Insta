@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,9 +37,9 @@ import Model.User;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    ImageView close , image_profile;
-    TextView save ,tv_change;
-    MaterialEditText fullname,username,bio;
+    ImageView close, image_profile;
+    TextView save, tv_change;
+    MaterialEditText fullname, username, bio;
 
     FirebaseUser firebaseUser;
     private Uri mImageUri;
@@ -86,12 +85,12 @@ public class EditProfileActivity extends AppCompatActivity {
         close.setOnClickListener(view -> finish());
 
         tv_change.setOnClickListener(view -> CropImage.activity()
-                .setAspectRatio(1,1)
+                .setAspectRatio(1, 1)
                 .setCropShape(CropImageView.CropShape.OVAL)
                 .start(EditProfileActivity.this));
 
         image_profile.setOnClickListener(view -> CropImage.activity()
-                .setAspectRatio(1,1)
+                .setAspectRatio(1, 1)
                 .setCropShape(CropImageView.CropShape.OVAL)
                 .start(EditProfileActivity.this));
 
@@ -105,9 +104,9 @@ public class EditProfileActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         HashMap<String, Object> hashMap = new HashMap<>();
 
-        hashMap.put("username",username);
-        hashMap.put("fullname",fullname);
-        hashMap.put("bio",bio);
+        hashMap.put("username", username);
+        hashMap.put("fullname", fullname);
+        hashMap.put("bio", bio);
 
         reference.updateChildren(hashMap);
 
@@ -121,7 +120,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    private  void uploadImage() {
+    private void uploadImage() {
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Uploading");
@@ -132,30 +131,27 @@ public class EditProfileActivity extends AppCompatActivity {
                     + "." + getFileExtensions(mImageUri));
 
             uploadTask = filereferance.putFile(mImageUri);
-            uploadTask.continueWithTask(new Continuation() {
-                @Override
-                public Object then(@NonNull Task task) throws Exception {
-                    if (!task.isSuccessful()) {
+            uploadTask.continueWithTask((Continuation) task -> {
+                if (!task.isSuccessful()) {
 
-                        throw task.getException();
-
-                    }
-                    return filereferance.getDownloadUrl();
+                    throw task.getException();
 
                 }
+                return filereferance.getDownloadUrl();
+
             }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
 
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     Uri downloadUrl = task.getResult();
 
-                   String myUrl = downloadUrl.toString();
+                    String myUrl = downloadUrl.toString();
 
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
                     HashMap<String, Object> hashMap = new HashMap<>();
 
-                    hashMap.put("imageurl",""+myUrl);
+                    hashMap.put("imageurl", "" + myUrl);
 
                     reference.updateChildren(hashMap);
 
@@ -165,7 +161,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     Toast.makeText(EditProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(e -> Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
-        }else {
+        } else {
             Toast.makeText(com.dev.insta.EditProfileActivity.this, "No image selected!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -174,15 +170,15 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
             mImageUri = result.getUri();
 
             uploadImage();
-        }else {
-            Toast.makeText(com.dev.insta.EditProfileActivity.this,"Searching gone wrong!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(com.dev.insta.EditProfileActivity.this, "Searching gone wrong!", Toast.LENGTH_SHORT).show();
 
         }
     }

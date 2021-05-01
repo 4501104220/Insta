@@ -2,10 +2,10 @@ package Model;
 
 public class Notification {
 
-    private String postid ;
-    private String userid ;
-    private String text ;
-    private  boolean ispost ;
+    private String postid;
+    private String userid;
+    private String text;
+    private boolean ispost;
 
     public Notification() {
     }

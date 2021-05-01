@@ -28,7 +28,7 @@ public class AddStoryActivity extends AppCompatActivity {
 
 
     private Uri mImageUrl;
-    String myUrl ="" ;
+    String myUrl = "";
     private StorageTask mStorageTask;
     StorageReference storageReference;
 
@@ -38,10 +38,10 @@ public class AddStoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_story);
 
-         storageReference = FirebaseStorage.getInstance().getReference("Story");
+        storageReference = FirebaseStorage.getInstance().getReference("Story");
 
         CropImage.activity()
-                .setAspectRatio(9,16)
+                .setAspectRatio(9, 16)
                 .start(com.dev.insta.AddStoryActivity.this);
     }
 
@@ -53,27 +53,26 @@ public class AddStoryActivity extends AppCompatActivity {
 
     }
 
-    private  void publishStory(){
+    private void publishStory() {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Posting");
         pd.show();
 
-        if(mImageUrl != null){
+        if (mImageUrl != null) {
             final StorageReference imageReferance = storageReference.child(System.currentTimeMillis()
-            +"."+ getFileExtensions(mImageUrl));
+                    + "." + getFileExtensions(mImageUrl));
 
             mStorageTask = imageReferance.putFile(mImageUrl);
             mStorageTask.continueWithTask((Continuation) task -> {
 
-                if(!task.isSuccessful())
-                {
+                if (!task.isSuccessful()) {
                     throw task.getException();
 
                 }
                 return imageReferance.getDownloadUrl();
             }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
 
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     Uri downloadUri = task.getResult();
                     myUrl = downloadUri.toString();
@@ -82,27 +81,27 @@ public class AddStoryActivity extends AppCompatActivity {
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
                             .child(myid);
                     String storyid = reference.push().getKey();
-                    long timend = System.currentTimeMillis()+86400000;
+                    long timend = System.currentTimeMillis() + 86400000;
 
                     HashMap<String, Object> hashMap = new HashMap<>();
 
-                    hashMap.put("imageurl",myUrl);
+                    hashMap.put("imageurl", myUrl);
                     hashMap.put("timestart", ServerValue.TIMESTAMP);
-                    hashMap.put("timeend",timend);
-                    hashMap.put("storyid",storyid);
-                    hashMap.put("userid",myid);
+                    hashMap.put("timeend", timend);
+                    hashMap.put("storyid", storyid);
+                    hashMap.put("userid", myid);
 
                     reference.child(storyid).setValue(hashMap);
                     pd.dismiss();
                     finish();
 
-                }else {
+                } else {
                     Toast.makeText(AddStoryActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(e -> Toast.makeText(AddStoryActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
 
 
-        }else {
+        } else {
             Toast.makeText(this, "No image selected!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -111,16 +110,16 @@ public class AddStoryActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
             mImageUrl = result.getUri();
 
             publishStory();
-        }else {
-            Toast.makeText(com.dev.insta.AddStoryActivity.this,"Something gone wrong!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(com.dev.insta.AddStoryActivity.this,MainActivity.class));
+        } else {
+            Toast.makeText(com.dev.insta.AddStoryActivity.this, "Something gone wrong!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(com.dev.insta.AddStoryActivity.this, MainActivity.class));
             finish();
 
         }

@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText password,email;
+    EditText password, email;
     Button login;
     TextView text_signup;
     FirebaseAuth mauth;
@@ -46,21 +46,21 @@ public class LoginActivity extends AppCompatActivity {
             pd.setMessage("Please wait...");
             pd.show();
 
-            String str_email= email.getText().toString();
-            String str_password= password.getText().toString();
+            String str_email = email.getText().toString();
+            String str_password = password.getText().toString();
 
-            if(TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password)){
+            if (TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password)) {
 
-                Toast.makeText(LoginActivity.this,"All fields are required", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
 
-            }else if(str_password.length()<6) {
-                Toast.makeText(LoginActivity.this,"Password must have 6 characters", Toast.LENGTH_SHORT).show();
+            } else if (str_password.length() < 6) {
+                Toast.makeText(LoginActivity.this, "Password must have 6 characters", Toast.LENGTH_SHORT).show();
 
-            }else {
+            } else {
 
-                mauth.signInWithEmailAndPassword(str_email,str_password).addOnCompleteListener(LoginActivity.this, task -> {
+                mauth.signInWithEmailAndPassword(str_email, str_password).addOnCompleteListener(LoginActivity.this, task -> {
 
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users")
                                 .child(mauth.getCurrentUser().getUid());
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 pd.dismiss();
 
-                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
@@ -82,8 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                                 pd.dismiss();
                             }
                         });
-                    }else {
-                        Toast.makeText(LoginActivity.this,"Authentication failed!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

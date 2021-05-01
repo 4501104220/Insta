@@ -31,12 +31,12 @@ public class PostActivity extends AppCompatActivity {
     Uri imageUrl;
     String myUrl = "";
 
-    StorageTask uploadTask ;
+    StorageTask uploadTask;
     StorageReference storageReference;
 
     ImageView close, image_added;
 
-    TextView post ;
+    TextView post;
     EditText description;
 
     @Override
@@ -58,9 +58,9 @@ public class PostActivity extends AppCompatActivity {
 
         post.setOnClickListener(view -> uploadImage());
 
-       CropImage.activity()
-               .setAspectRatio(1, 1)
-               .start(com.dev.insta.PostActivity.this);
+        CropImage.activity()
+                .setAspectRatio(1, 1)
+                .start(com.dev.insta.PostActivity.this);
 
     }
 
@@ -78,22 +78,22 @@ public class PostActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Posting");
         progressDialog.show();
-        if(imageUrl != null){
+        if (imageUrl != null) {
 
             final StorageReference filereferance = storageReference.child(System.currentTimeMillis()
-            + "."+ getFileExtensions(imageUrl));
+                    + "." + getFileExtensions(imageUrl));
 
             uploadTask = filereferance.putFile(imageUrl);
             uploadTask.continueWithTask((Continuation) task -> {
-                if(!task.isSuccessful()){
+                if (!task.isSuccessful()) {
 
-                    throw  task.getException();
+                    throw task.getException();
                 }
                 return filereferance.getDownloadUrl();
 
             }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
 
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     Uri downloadUrl = task.getResult();
 
@@ -113,13 +113,11 @@ public class PostActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     startActivity(new Intent(PostActivity.this, MainActivity.class));
                     finish();
-                }
-                else {
+                } else {
                     Toast.makeText(PostActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
-            }).addOnFailureListener(e -> Toast.makeText(PostActivity.this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show());
-        }
-        else {
+            }).addOnFailureListener(e -> Toast.makeText(PostActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show());
+        } else {
             Toast.makeText(this, "No image selected!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -129,15 +127,15 @@ public class PostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
             imageUrl = result.getUri();
 
             image_added.setImageURI(imageUrl);
-        }else {
-            Toast.makeText(com.dev.insta.PostActivity.this,"Searching gone wrong!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(com.dev.insta.PostActivity.this, "Searching gone wrong!", Toast.LENGTH_SHORT).show();
 
             startActivity(new Intent(com.dev.insta.PostActivity.this, com.dev.insta.MainActivity.class));
             finish();

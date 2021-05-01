@@ -42,7 +42,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.notification_item,viewGroup,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.notification_item, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -52,13 +52,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         final Notification notification = mNotification.get(position);
         holder.text.setText(notification.getText());
-        getUserInfo(holder.image_profile,holder.username,notification.getUserid());
+        getUserInfo(holder.image_profile, holder.username, notification.getUserid());
 
-        if(notification.isIspost()){
+        if (notification.isIspost()) {
 
             holder.post_image.setVisibility(View.VISIBLE);
-            getPostImage(holder.post_image,notification.getPostid());
-        }else {
+            getPostImage(holder.post_image, notification.getPostid());
+        } else {
 
             holder.post_image.setVisibility(View.GONE);
         }
@@ -66,22 +66,21 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.itemView.setOnClickListener(view -> {
 
-            if(notification.isIspost()){
+            if (notification.isIspost()) {
 
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                editor.putString("postid",notification.getPostid());
+                editor.putString("postid", notification.getPostid());
 
                 editor.apply();
-                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new PostDetailFragment()).commit();
-            }
-            else {
+            } else {
 
                 SharedPreferences.Editor editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-                editor.putString("profileid",notification.getUserid());
+                editor.putString("profileid", notification.getUserid());
 
                 editor.apply();
-                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
 
             }
@@ -93,10 +92,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return mNotification.size();
     }
 
-    class  ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView image_profile,post_image;
-        public TextView username,text;
+        public ImageView image_profile, post_image;
+        public TextView username, text;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -108,7 +107,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
-    private void  getUserInfo(final ImageView imageView, final TextView username, String publisgerid){
+    private void getUserInfo(final ImageView imageView, final TextView username, String publisgerid) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(publisgerid);
         reference.addValueEventListener(new ValueEventListener() {
@@ -131,7 +130,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
 
-    private  void  getPostImage(final ImageView imageView , final String postid){
+    private void getPostImage(final ImageView imageView, final String postid) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
 

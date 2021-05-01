@@ -1,11 +1,11 @@
 package Model;
 
 public class User {
-    private String id ;
-    private String username ;
-    private String fullname ;
-    private String imageurl ;
-    private String bio ;
+    private String id;
+    private String username;
+    private String fullname;
+    private String imageurl;
+    private String bio;
 
     public User(String id, String username, String fullname, String imageurl, String bio) {
         this.id = id;

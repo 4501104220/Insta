@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,7 +43,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.comment_item,viewGroup,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.comment_item, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -53,12 +55,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         final Comment comment = mComment.get(i);
         viewHolder.comment.setText(comment.getComment());
 
-        getUserInfo(viewHolder.image_profile,viewHolder.username,comment.getPublisher());
+        getUserInfo(viewHolder.image_profile, viewHolder.username, comment.getPublisher());
 
         viewHolder.comment.setOnClickListener(view -> {
 
             Intent intent = new Intent(mContext, MainActivity.class);
-            intent.putExtra("publisherid",comment.getPublisher());
+            intent.putExtra("publisherid", comment.getPublisher());
 
             mContext.startActivity(intent);
         });
@@ -67,7 +69,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         viewHolder.image_profile.setOnClickListener(view -> {
 
             Intent intent = new Intent(mContext, MainActivity.class);
-            intent.putExtra("publisherid",comment.getPublisher());
+            intent.putExtra("publisherid", comment.getPublisher());
 
             mContext.startActivity(intent);
         });
@@ -78,10 +80,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return mComment.size();
     }
 
-    public class  ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView image_profile;
-        public TextView username,comment ;
+        public TextView username, comment;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,6 +99,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(publisherid);
 
         reference.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -107,6 +110,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

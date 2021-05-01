@@ -1,10 +1,10 @@
 package Model;
 
 public class Post {
-    private String postid ;
-    private String postimage ;
-    private String description ;
-    private String publisher ;
+    private String postid;
+    private String postimage;
+    private String description;
+    private String publisher;
 
     public Post(String postid, String postimage, String description, String publisher) {
         this.postid = postid;

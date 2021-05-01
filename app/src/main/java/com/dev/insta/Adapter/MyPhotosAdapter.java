@@ -19,9 +19,9 @@ import java.util.List;
 
 import Model.Post;
 
-public class MyPhotosAdapter extends  RecyclerView.Adapter<MyPhotosAdapter.ViewHolder> {
+public class MyPhotosAdapter extends RecyclerView.Adapter<MyPhotosAdapter.ViewHolder> {
 
-    private Context context ;
+    private Context context;
     private List<Post> mPosts;
 
     public MyPhotosAdapter(Context context, List<Post> mPosts) {
@@ -33,7 +33,7 @@ public class MyPhotosAdapter extends  RecyclerView.Adapter<MyPhotosAdapter.ViewH
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.photos_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.photos_item, parent, false);
 
         return new ViewHolder(view);
     }
@@ -48,9 +48,9 @@ public class MyPhotosAdapter extends  RecyclerView.Adapter<MyPhotosAdapter.ViewH
         viewholder.post_image.setOnClickListener(view -> {
 
             SharedPreferences.Editor editor = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit();
-            editor.putString("postid",post.getPostid());
+            editor.putString("postid", post.getPostid());
             editor.apply();
-            ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new PostDetailFragment()).commit();
 
         });
@@ -61,7 +61,7 @@ public class MyPhotosAdapter extends  RecyclerView.Adapter<MyPhotosAdapter.ViewH
         return mPosts.size();
     }
 
-    public  class  ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView post_image;
 

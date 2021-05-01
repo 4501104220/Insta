@@ -23,12 +23,12 @@ import Model.User;
 
 public class FollowersActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView ;
+    private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> userlist;
     private List<String> idlist;
     String id;
-    String title ;
+    String title;
 
 
     @Override
@@ -39,7 +39,7 @@ public class FollowersActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
 
-        title= intent.getStringExtra("title");
+        title = intent.getStringExtra("title");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,10 +52,10 @@ public class FollowersActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         userlist = new ArrayList<>();
-        userAdapter = new UserAdapter(this,userlist,false);
+        userAdapter = new UserAdapter(this, userlist, false);
         recyclerView.setAdapter(userAdapter);
         idlist = new ArrayList<>();
-        switch (title){
+        switch (title) {
             case "likes":
                 getLikes();
                 break;
@@ -66,17 +66,16 @@ public class FollowersActivity extends AppCompatActivity {
             case "followers":
                 getFollowers();
                 break;
-            case "views"   :
+            case "views":
                 getViews();
                 break;
 
         }
 
-
         toolbar.setNavigationOnClickListener(view -> finish());
     }
 
-    private void getViews(){
+    private void getViews() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
                 .child(id).child(getIntent().getStringExtra("storyid")).child("views");
 
@@ -85,7 +84,7 @@ public class FollowersActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 idlist.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     idlist.add(snapshot.getKey());
                 }
                 showUsers();
@@ -108,7 +107,7 @@ public class FollowersActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 idlist.clear();
-                for(DataSnapshot Snapshot :dataSnapshot.getChildren()){
+                for (DataSnapshot Snapshot : dataSnapshot.getChildren()) {
 
                     idlist.add(Snapshot.getKey());
                 }
@@ -134,7 +133,7 @@ public class FollowersActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 idlist.clear();
-                for(DataSnapshot Snapshot :dataSnapshot.getChildren()){
+                for (DataSnapshot Snapshot : dataSnapshot.getChildren()) {
 
                     idlist.add(Snapshot.getKey());
                 }
@@ -157,7 +156,7 @@ public class FollowersActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 idlist.clear();
-                for(DataSnapshot Snapshot :dataSnapshot.getChildren()){
+                for (DataSnapshot Snapshot : dataSnapshot.getChildren()) {
 
                     idlist.add(Snapshot.getKey());
                 }
@@ -172,7 +171,7 @@ public class FollowersActivity extends AppCompatActivity {
         });
     }
 
-    private  void showUsers(){
+    private void showUsers() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -180,11 +179,11 @@ public class FollowersActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 userlist.clear();
-                for(DataSnapshot Snapshot :dataSnapshot.getChildren()){
+                for (DataSnapshot Snapshot : dataSnapshot.getChildren()) {
 
                     User user = Snapshot.getValue(User.class);
-                    for(String id : idlist){
-                        if(user.getId().equals(id)) {
+                    for (String id : idlist) {
+                        if (user.getId().equals(id)) {
 
                             userlist.add(user);
                         }

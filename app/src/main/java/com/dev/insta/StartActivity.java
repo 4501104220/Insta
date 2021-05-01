@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class StartActivity extends AppCompatActivity {
 
-    Button login,register;
+    Button login, register;
     FirebaseUser firebaseUser;
 
     @Override
@@ -19,9 +19,9 @@ public class StartActivity extends AppCompatActivity {
         super.onStart();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (firebaseUser != null){
+        if (firebaseUser != null) {
 
-            startActivity(new Intent(com.dev.insta.StartActivity.this,MainActivity.class));
+            startActivity(new Intent(com.dev.insta.StartActivity.this, MainActivity.class));
             finish();
         }
     }
@@ -30,7 +30,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        login.setOnClickListener(view -> startActivity(new Intent(StartActivity.this,LoginActivity.class)));
+        login.setOnClickListener(view -> startActivity(new Intent(StartActivity.this, LoginActivity.class)));
 
         register.setOnClickListener(view -> startActivity(new Intent(StartActivity.this, RegisterActivity.class)));
 

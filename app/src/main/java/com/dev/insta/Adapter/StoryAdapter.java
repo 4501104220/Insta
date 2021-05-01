@@ -29,7 +29,7 @@ import java.util.List;
 import Model.Story;
 import Model.User;
 
-public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
+public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> {
 
     private Context mContext;
 
@@ -44,52 +44,47 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if(viewType == 0){
+        if (viewType == 0) {
 
-            View view = LayoutInflater.from(mContext).inflate(R.layout.add_story_item , parent,false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.add_story_item, parent, false);
+            return new ViewHolder(view);
+        } else {
+
+            View view = LayoutInflater.from(mContext).inflate(R.layout.story_item, parent, false);
             return new ViewHolder(view);
         }
-        else {
-
-            View view = LayoutInflater.from(mContext).inflate(R.layout.story_item , parent,false);
-            return new ViewHolder(view);
-        }
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
         final Story story = mStory.get(i);
-        userInfo(viewHolder,story.getUserid(),i);
+        userInfo(viewHolder, story.getUserid(), i);
 
-        if(viewHolder.getAdapterPosition() != 0){
+        if (viewHolder.getAdapterPosition() != 0) {
 
-            seenStroy(viewHolder,story.getUserid());
-
+            seenStroy(viewHolder, story.getUserid());
 
         }
 
-        if(viewHolder.getAdapterPosition() == 0){
-            myStory(viewHolder.addstory_text, viewHolder.story_plus,false);
-
+        if (viewHolder.getAdapterPosition() == 0) {
+            myStory(viewHolder.addstory_text, viewHolder.story_plus, false);
 
         }
 
         viewHolder.itemView.setOnClickListener(view -> {
 
-            if(viewHolder.getAdapterPosition() == 0){
+            if (viewHolder.getAdapterPosition() == 0) {
 
-                myStory(viewHolder.addstory_text,viewHolder.story_plus,true);
+                myStory(viewHolder.addstory_text, viewHolder.story_plus, true);
 
-            }else {
+            } else {
 
                 Intent intent = new Intent(mContext, StoryActivity.class);
                 intent.putExtra("userid", story.getUserid());
                 mContext.startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -97,10 +92,10 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
         return mStory.size();
     }
 
-    public  class  ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView story_photo,story_plus,story_photo_seen;
-        public TextView story_username,addstory_text;
+        public ImageView story_photo, story_plus, story_photo_seen;
+        public TextView story_username, addstory_text;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,14 +112,13 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
     @Override
     public int getItemViewType(int position) {
 
-        if(position == 0){
+        if (position == 0) {
             return 0;
-
         }
         return 1;
     }
 
-    private void  userInfo(final ViewHolder viewHolder, String userid, final int pos){
+    private void userInfo(final ViewHolder viewHolder, String userid, final int pos) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -133,22 +127,21 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
                 User user = dataSnapshot.getValue(User.class);
                 Glide.with(mContext).load(user.getImageurl()).into(viewHolder.story_photo);
-               if(pos != 0){
+                if (pos != 0) {
 
-                   Glide.with(mContext).load(user.getImageurl()).into(viewHolder.story_photo_seen);
-                   viewHolder.story_username.setText(user.getUsername());
+                    Glide.with(mContext).load(user.getImageurl()).into(viewHolder.story_photo_seen);
+                    viewHolder.story_username.setText(user.getUsername());
 
-               }
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
 
-    private void myStory(final TextView textView, final ImageView imageView, final boolean click){
+    private void myStory(final TextView textView, final ImageView imageView, final boolean click) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -160,17 +153,16 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
                 int count = 0;
                 long timecurrent = System.currentTimeMillis();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Story story = snapshot.getValue(Story.class);
-                    if(timecurrent > story.getTimestart() && timecurrent < story.getTimeend()){
-
+                    if (timecurrent > story.getTimestart() && timecurrent < story.getTimeend()) {
                         count++;
                     }
                 }
 
-                if(click){
+                if (click) {
 
-                    if(count >0){
+                    if (count > 0) {
                         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "View story",
                                 (dialogInterface, i) -> {
@@ -190,20 +182,19 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
                                 });
                         alertDialog.show();
-                    }else {
+                    } else {
                         Intent intent = new Intent(mContext, AddStoryActivity.class);
                         mContext.startActivity(intent);
                     }
 
-
-                }else {
-                    if(count > 0){
+                } else {
+                    if (count > 0) {
 
                         textView.setText("My Story");
                         imageView.setVisibility(View.GONE);
 
-                    }else {
-                        textView.setText("Add story");
+                    } else {
+                        textView.setText(" Add story");
                         imageView.setVisibility(View.VISIBLE);
                     }
                 }
@@ -217,7 +208,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
     }
 
-    private  void seenStroy (final ViewHolder viewHolder , String userid){
+    private void seenStroy(final ViewHolder viewHolder, String userid) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Story")
                 .child(userid);
@@ -226,23 +217,23 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                int i =0;
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if(!snapshot.child("views")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).exists()
-                    &&  System.currentTimeMillis() < snapshot.getValue(Story.class).getTimeend()){
+                int i = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (!snapshot.child("views")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).exists()
+                            && System.currentTimeMillis() < snapshot.getValue(Story.class).getTimeend()) {
 
                         i++;
 
                     }
                 }
 
-                if(i> 0){
+                if (i > 0) {
                     viewHolder.story_photo.setVisibility(View.VISIBLE);
                     viewHolder.story_photo_seen.setVisibility(View.GONE);
 
 
-                }else {
+                } else {
                     viewHolder.story_photo.setVisibility(View.GONE);
                     viewHolder.story_photo_seen.setVisibility(View.VISIBLE);
                 }
