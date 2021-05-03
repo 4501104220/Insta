@@ -137,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="-5dp"
             android:layout_marginRight="20dp"
             android:elevation="10dp"
             android:gravity="center"
@@ -169,7 +169,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="55dp" />
+            android:layout_height="68dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
