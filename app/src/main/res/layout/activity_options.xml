@@ -18,14 +18,14 @@
         android:layout_height="1dp"
         android:background="@color/colorAccent" />
 
-    <TextView
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="Settings"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp" />
+<!--    <TextView-->
+<!--        android:id="@+id/settings"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="8dp"-->
+<!--        android:text="Settings"-->
+<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        android:textSize="18sp" />-->
 
     <View
         android:layout_width="match_parent"
