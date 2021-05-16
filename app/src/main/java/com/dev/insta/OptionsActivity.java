@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class OptionsActivity extends AppCompatActivity {
 
-    TextView settings, logout;
+    TextView logout;
 
 
     @Override
@@ -19,7 +19,6 @@ public class OptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        settings = findViewById(R.id.settings);
         logout = findViewById(R.id.logout);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
